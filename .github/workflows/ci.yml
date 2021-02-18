@@ -32,6 +32,19 @@ jobs:
         run: |
           mkdir -p build
           g++ src/main.cpp -o build/main
+  windows-build:
+    runs-on: windows-latest
+    name: Windows $BUILD_TYPE build
+    strategy:
+      matrix:
+        compiler: [g++]
+    steps:
+      - uses: actions/checkout@v2
+      - name: Build
+        run: |
+          mkdir -p build
+          g++ src/main.cpp -o build/main
+
 
 
 
