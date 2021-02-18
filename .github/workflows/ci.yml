@@ -5,21 +5,61 @@ env:
   BUILD_TYPE: Debug
 
 jobs:
-  build:
-    runs-on: ${{ matrix.os }}
-    continue-on-error: ${{ matrix.experimental }}
+  ubuntu-build:
+    runs-on: ubuntu-latest
+    name: Ubuntu $BUILD_TYPE build
     strategy:
-      fail-fast: false
       matrix:
         compiler: [g++]
-        os: [ubuntu-latest, macos-latest]
-        experimental: [false]
+    steps:
+      - uses: actions/checkout@v2
+      - name: Install Packages
+        run: |
+          sudo apt-get update
+      - name: Build
+        run: |
+          mkdir -p build
+          g++ src/main.cpp -o build/main
+  macos-build:
+    runs-on: macos-latest
+    name: MacOS $BUILD_TYPE build
+    strategy:
+      matrix:
+        compiler: [g++]
     steps:
       - uses: actions/checkout@v2
       - name: Build
         run: |
           mkdir -p build
           g++ src/main.cpp -o build/main
+
+
+
+#         os: [ubuntu-latest, macos-latest]
+#         experimental: [false]
+#     steps:
+#       - uses: actions/checkout@v2
+#       - name: Build
+#         run: |
+#           mkdir -p build
+#           g++ src/main.cpp -o build/main
+
+# jobs:
+#   build:
+#     runs-on: ${{ matrix.os }}
+#     continue-on-error: ${{ matrix.experimental }}
+#     strategy:
+#       fail-fast: false
+#       matrix:
+#         compiler: [g++]
+#         os: [ubuntu-latest, macos-latest]
+#         experimental: [false]
+#     steps:
+#       - uses: actions/checkout@v2
+#       - name: Build
+#         run: |
+#           mkdir -p build
+#           g++ src/main.cpp -o build/main
 
 
 # jobs:
