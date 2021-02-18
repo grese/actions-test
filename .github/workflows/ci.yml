@@ -16,9 +16,6 @@ jobs:
         experimental: [false]
     steps:
       - uses: actions/checkout@v2
-      - name: Install Packages
-        run: |
-          sudo apt-get update
       - name: Build
         run: |
           mkdir -p build
