@@ -24,7 +24,7 @@ jobs:
       - name: Install MacOS dependencies
         if: ${{ matrix.os == 'macos-latest' }}
         run: |
-          echo 'Installing MacOS dependencies'
+          echo 'Installing Windows dependencies'
       - name: Install MacOS dependencies
         if: ${{ matrix.os == 'windows-latest' }}
         run: |
