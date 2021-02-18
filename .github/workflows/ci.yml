@@ -1,0 +1,9 @@
+on: [push, pull_request]
+
+import:
+  - ../../.travis.yml
+
+name: CI Build
+
+env:
+  BUILD_TYPE: Debug
