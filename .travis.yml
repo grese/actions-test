@@ -2,8 +2,8 @@
 
 language: cpp
 
-env:
-  BUILD_TYPE: Debug
+# env:
+#   BUILD_TYPE: Debug
  
 #  matrix:
 #   include:
