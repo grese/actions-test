@@ -1,9 +1,24 @@
-# on: [push, pull_request]
+on: [push, pull_request]
+name: CI
 
-# import:
-#   - ../../.travis.yml
+env:
+  BUILD_TYPE: Debug
 
-# name: CI Build
+jobs:
+  build:
+    strategy:
+      matrix:
+        compiler: [g++]
 
-# env:
-#   BUILD_TYPE: Debug
+    runs-on: ubuntu-latest #TODO: macos-latest
+    name: Debug build 
+
+    steps:
+      - uses: actions/checkout@v2
+      - name: Install Packages
+        run: |
+          sudo apt-get update
+      - name: Build
+        run: |
+          mkdir -p build
+          g++ src/main.cpp -o build/main
