@@ -1,0 +1,29 @@
+language: cpp
+
+env:
+  BUILD_TYPE: Debug
+ 
+ matrix:
+  include:
+    - os: osx
+      compiler: gcc
+      script:
+        - echo "Building $BUILD_TYPE on OSX"
+        - mkdir -p build
+        - g++ ./src/main.cpp -o ./build/main
+    
+    - os: linux
+      compiler: gcc
+      script:
+        - echo "Building $BUILD_TYPE on Linux"
+        - mkdir -p build
+        - g++ ./src/main.cpp -o ./build/main
+
+after_success:
+  - echo "Executing after_success step!"
+
+# before_deploy:
+#   - echo "Executing before_deploy step!"
+
+
+  
