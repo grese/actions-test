@@ -6,13 +6,14 @@ env:
 
 jobs:
   build:
+    runs-on: ${{ matrix.os }}
+    continue-on-error: ${{ matrix.experimental }}
     strategy:
+      fail-fast: false
       matrix:
         compiler: [g++]
-
-    runs-on: ubuntu-latest #TODO: macos-latest
-    name: Debug build 
-
+        os: [ubuntu-latest, macos-latest]
+        experimental: [false]
     steps:
       - uses: actions/checkout@v2
       - name: Install Packages
@@ -22,3 +23,23 @@ jobs:
         run: |
           mkdir -p build
           g++ src/main.cpp -o build/main
+
+
+# jobs:
+#   build:
+#     strategy:
+#       matrix:
+#         compiler: [g++]
+
+#     runs-on: ubuntu-latest
+#     name: Ubuntu $BUILD_TYPE build
+
+#     steps:
+#       - uses: actions/checkout@v2
+#       - name: Install Packages
+#         run: |
+#           sudo apt-get update
+#       - name: Build
+#         run: |
+#           mkdir -p build
+#           g++ src/main.cpp -o build/main
