@@ -12,19 +12,19 @@ jobs:
       fail-fast: false
       matrix:
         compiler: [g++]
-        os: [ubuntu-latest, macos-latest]
+        os: [ubuntu-latest, macos-latest, windows-latest]
         experimental: [false]
     steps:
       - uses: actions/checkout@v2
       - name: Install Ubuntu dependencies
         if: ${{ matrix.os == 'ubuntu-latest' }}
         run: |
-          echo 'installing Ubuntu dependencies'
-          apt update
+          echo 'Installing Ubuntu dependencies'
+          apt-get update
       - name: Install MacOS dependencies
         if: ${{ matrix.os == 'macos-latest' }}
         run: |
-          echo 'installing MacOS dependencies'
+          echo 'Installing MacOS dependencies'
       - name: Install MacOS dependencies
         if: ${{ matrix.os == 'windows-latest' }}
         run: |
