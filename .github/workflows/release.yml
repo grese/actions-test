@@ -1,0 +1,7 @@
+import:
+  - ../../.travis.yml
+
+name: Release
+
+env:
+  BUILD_TYPE: Release
