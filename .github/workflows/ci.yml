@@ -17,6 +17,7 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - name: Install Dependencies
+        shell: bash
         run: |
           echo "Running install dependences for $RUNNER_OS"
           if [ "$RUNNER_OS" == "Linux" ]; then
@@ -27,6 +28,7 @@ jobs:
             echo "installing macos packages"
           fi
       - name: Build
+        shell: bash
         run: |
           mkdir -p build
           cd build
@@ -34,6 +36,7 @@ jobs:
           cmake --build .
           cd -
       - name: Test
+        shell: bash
         run: |
           ls ./build/*
           if [ "$RUNNER_OS" == "Windows" ]; then
