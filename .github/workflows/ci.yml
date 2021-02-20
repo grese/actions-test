@@ -52,7 +52,7 @@ jobs:
           else
             ./build/main
           fi
-          echo "::set-output name=result::$(python3 -c 'print(\"SUCCESS!\")')\n"
+          echo "::set-output name=result::$(echo SUCCESS)\n"
       - name: Validate Test Results
         shell: bash
         run: echo ${{ steps.test.outputs.result }}
