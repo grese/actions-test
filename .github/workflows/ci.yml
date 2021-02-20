@@ -29,6 +29,8 @@ jobs:
           fi
           echo "installing pip packages"
           python3 -m pip install --user --upgrade pip
+          python3 -m pip install --user --upgrade setuptools
+          python3 -m pip install --user wheel twine
       - name: Build
         shell: bash
         run: |
@@ -108,33 +110,3 @@ jobs:
 # #####################################################
 # # END V0
 # #####################################################
-
-
-#         os: [ubuntu-latest, macos-latest]
-#         experimental: [false]
-#     steps:
-#       - uses: actions/checkout@v2
-#       - name: Build
-#         run: |
-#           mkdir -p build
-#           g++ src/main.cpp -o build/main
-
-
-# jobs:
-#   build:
-#     strategy:
-#       matrix:
-#         compiler: [g++]
-
-#     runs-on: ubuntu-latest
-#     name: Ubuntu $BUILD_TYPE build
-
-#     steps:
-#       - uses: actions/checkout@v2
-#       - name: Install Packages
-#         run: |
-#           sudo apt-get update
-#       - name: Build
-#         run: |
-#           mkdir -p build
-#           g++ src/main.cpp -o build/main
