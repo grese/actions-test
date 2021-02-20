@@ -40,7 +40,7 @@ jobs:
         run: |
           ls ./build/*
           if [ "$RUNNER_OS" == "Windows" ]; then
-            ./build/x64/main
+            ./build/Debug/main.exe
           else
             ./build/main
           fi
