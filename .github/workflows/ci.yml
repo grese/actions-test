@@ -39,10 +39,7 @@ jobs:
       - name: Test
         run: |
           ls ./build/*
-#       - name: Build
-#         run: |
-#           mkdir -p build
-#           g++ src/main.cpp -o build/main
+          ./build/main
 
 # ####################################################
 # # BEGIN V0
