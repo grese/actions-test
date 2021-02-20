@@ -27,6 +27,8 @@ jobs:
           elif [ "$RUNNER_OS" == "MacOS" ]; then
             echo "installing macos packages"
           fi
+          echo "installing pip packages"
+          python3 -m pip install --user --upgrade pip
       - name: Build
         shell: bash
         run: |
