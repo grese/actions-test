@@ -27,3 +27,4 @@ if __name__ == '__main__':
     parser.add_argument('-r', '--repo', required=True)
     parser.add_argument('-a', '--assetname', required=True)
     args = parser.parse_args()
+    main(args.owner, args.repo, args.assetname)
