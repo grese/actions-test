@@ -62,7 +62,9 @@ jobs:
         shell: bash
         run: |
           BINARY_EXTENSION=$([ "$RUNNER_OS" == "Windows" ] && echo ".exe" || echo "")
+          echo "BINARY EXTENSION: $BINARY_EXTENSION"
           BINARY_ASSETNAME="marabou-$(echo $RUNNER_OS | tr '[[:upper:]]' '[[:lower:]]')$BINARY_EXTENSION"
+          echo "BINARY ASSETNAME: $BINARY_ASSETNAME"
           RELEASE_ID=$(python3 ./tools/release_id.py -o grese -r 'actions-test' -a "$BINARY_ASSETNAME" | grep release_id | cut -d ':' -f 2)
           echo "RELEASE ID: $RELEASE_ID"
 
