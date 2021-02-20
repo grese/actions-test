@@ -38,7 +38,7 @@ jobs:
           cd -
       - name: Test
         run: |
-          ls -la ./build
+          ls ./build/*
 #       - name: Build
 #         run: |
 #           mkdir -p build
