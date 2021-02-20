@@ -4,7 +4,9 @@ from argparse import ArgumentParser
 
 def fetch_latest_release_without_asset(owner, repo, assetname):
     # fetch releases & find latest release id
+    print('owner:', owner, 'repo:', repo, 'assetname:', assetname)
     response = requests.get(f'https://api.github.com/repos/{owner}/{repo}/releases')
+    print('releases response:', response)
     releases = {int(r['id']):r for r in response.json()}
     release_id = max(releases.keys()) if releases else None
     if release_id:
