@@ -3,6 +3,4 @@
 # to the root binary directory of the project as ${HELLO_BINARY_DIR}.
 cmake_minimum_required (VERSION 2.8.11)
 project (actions-test)
-
-# Recurse into the "Hello" and "Demo" subdirectories. 
-add_subdirectory (src)
+ADD_EXECUTABLE( main ./src/main.cpp )
