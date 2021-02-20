@@ -16,19 +16,16 @@ jobs:
         experimental: [false]
     steps:
       - uses: actions/checkout@v2
-      - name: Install Ubuntu dependencies
-        if: ${{ matrix.os == 'ubuntu-latest' }}
+      - name: Install Dependencies
         run: |
-          echo 'Installing Ubuntu dependencies'
-          sudo apt-get update
-      - name: Install MacOS dependencies
-        if: ${{ matrix.os == 'macos-latest' }}
-        run: |
-          echo 'Installing Windows dependencies'
-      - name: Install MacOS dependencies
-        if: ${{ matrix.os == 'windows-latest' }}
-        run: |
-          echo 'installing Windows dependencies'
+          echo "Running install dependences for $RUNNER_OS"
+          if [ "$RUNNER_OS" == "Linux" ]; then
+            echo "installing linux packages"
+          elif [ "$RUNNER_OS" == "Windows" ]; then
+            echo "installing windows packages"
+          elif [ "$RUNNER_OS" == "MacOS" ]; then
+            echo "installing macos packages"
+          fi
       - name: Build
         run: |
           mkdir -p build
@@ -39,7 +36,11 @@ jobs:
       - name: Test
         run: |
           ls ./build/*
-          ./build/main
+          if [ "$RUNNER_OS" == "Windows" ]; then
+            ./build/x64/main
+          else
+            ./build/main
+          fi
 
 # ####################################################
 # # BEGIN V0
