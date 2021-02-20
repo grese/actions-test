@@ -20,7 +20,7 @@ jobs:
         if: ${{ matrix.os == 'ubuntu-latest' }}
         run: |
           echo 'Installing Ubuntu dependencies'
-          apt-get update
+          sudo apt-get update
       - name: Install MacOS dependencies
         if: ${{ matrix.os == 'macos-latest' }}
         run: |
