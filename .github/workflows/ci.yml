@@ -35,6 +35,10 @@ jobs:
           cd build
           cmake ..
           cmake --build .
+          cd -
+      - name: Test
+        run: |
+          ls -la ./build
 #       - name: Build
 #         run: |
 #           mkdir -p build
