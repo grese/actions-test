@@ -52,6 +52,7 @@ jobs:
           else
             ./build/main
           fi
+          echo "\n"
           echo "::set-output name=result::$(echo SUCCESS)\n"
       - name: Validate Test Results
         shell: bash
