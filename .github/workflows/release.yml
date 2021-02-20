@@ -1,0 +1,95 @@
+on: [release]
+
+name: Release
+
+env:
+  BUILD_TYPE: Release
+
+jobs:
+  build:
+    runs-on: ${{ matrix.os }}
+    continue-on-error: ${{ matrix.experimental }}
+    strategy:
+      fail-fast: false
+      matrix:
+        compiler: [g++]
+        os: [ubuntu-latest, macos-latest, windows-latest]
+        experimental: [false]
+    steps:
+      - uses: actions/checkout@v2
+      - name: Install Dependencies
+        shell: bash
+        run: |
+          echo "Running install dependences for $RUNNER_OS"
+          if [ "$RUNNER_OS" == "Linux" ]; then
+            echo "installing linux packages"
+          elif [ "$RUNNER_OS" == "Windows" ]; then
+            echo "installing windows packages"
+          elif [ "$RUNNER_OS" == "MacOS" ]; then
+            echo "installing macos packages"
+          fi
+          echo "installing pip packages"
+          python3 -m pip install --user --upgrade pip
+          python3 -m pip install --user --upgrade setuptools
+          python3 -m pip install --user wheel twine
+      - name: Build
+        shell: bash
+        run: |
+          mkdir -p build
+          cd build
+          cmake .. \
+            -DFOO=1 \
+            -DBAR=2 \
+            -DBAZ=3
+          cmake --build .
+          cd -
+      - name: Test
+        id: test
+        shell: bash
+        run: |
+          ls ./build/*
+          if [ "$RUNNER_OS" == "Windows" ]; then
+            ./build/Debug/main.exe
+          else
+            ./build/main
+          fi
+          echo "\n"
+          echo "::set-output name=result::$(echo SUCCESS)\n"
+      - name: Validate Test Results
+        shell: bash
+        run: echo ${{ steps.test.outputs.result }}
+      
+      - name: Packaging
+        id: packaging
+        shell: bash
+        run: |
+          BINARY_PATH=$([ "$RUNNER_OS" == "Windows" ] && echo "./build/Debug/main.exe" || echo "./build/main")
+          ASSETNAME="actions-test-$(echo $RUNNER_OS | tr '[[:upper:]]' '[[:lower:]]').zip"
+          mkdir -p dist
+          cp $BINARY_PATH ./dist
+          cd dist && zip -r "../$ASSETNAME" . && cd -
+          ls ./dist
+          ls ./
+          echo "::set-output name=release_assetname::$ASSETNAME"
+          echo "::set-output name=release_assetpath::./$ASSETNAME"
+      - name: Fetch Release Info
+        id: release_info
+        shell: bash
+        env:
+          ASSETNAME: ${{ steps.packaging.outputs.release_assetname }}
+        run: |
+          RELEASE_ID="$(python3 ./tools/release_id.py -o 'grese' -r 'actions-test' -a $ASSETNAME | grep 'release_id' | cut -d ':' -f 2)"
+          RELEASE_UPLOAD_URL="https://uploads.github.com/repos/grese/actions-test/releases/$RELEASE_ID/assets?name=$ASSETNAME"
+          echo "::set-output name=release_id::$RELEASE_ID"
+          echo "::set-output name=release_upload_url::$RELEASE_UPLOAD_URL"
+      
+      - name: Upload Release Asset
+        id: release_assets
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.release_info.outputs.release_upload_url }}
+          asset_path: ${{ steps.packaging.outputs.release_assetpath }}
+          asset_name: ${{ steps.packaging.outputs.release_assetname }}
+          asset_content_type: application/zip
