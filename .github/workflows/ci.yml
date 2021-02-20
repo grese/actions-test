@@ -32,7 +32,13 @@ jobs:
       - name: Build
         run: |
           mkdir -p build
-          g++ src/main.cpp -o build/main
+          cd build
+          cmake ..
+          cmake --build .
+#       - name: Build
+#         run: |
+#           mkdir -p build
+#           g++ src/main.cpp -o build/main
 
 # ####################################################
 # # BEGIN V0
