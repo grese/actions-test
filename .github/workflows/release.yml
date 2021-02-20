@@ -69,7 +69,13 @@ jobs:
           ASSETNAME="actions-test-$(echo $RUNNER_OS | tr '[[:upper:]]' '[[:lower:]]').zip"
           mkdir -p dist
           cp $BINARY_PATH ./dist
-          cd dist && zip -r "../$ASSETNAME" . && cd -
+          cd dist
+          if [ "$RUNNER_OS" == "Windows" ]; then
+            powershell.exe -exec bypass -c "Compress-Archive . ../$ASSETNAME"
+          else
+            zip -r "../$ASSETNAME" .
+          fi
+          cd -
           ls ./dist
           ls ./
           echo "::set-output name=release_assetname::$ASSETNAME"
